@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/"
+             xmlns:camunda="http://camunda.org/schema/1.0/dmn"
+             id="definitions"
+             name="loan-approval"
+             namespace="http://camunda.org/schema/1.0/dmn">
+
+  <decision id="loan-approval" name="Loan Approval">
+    <decisionTable id="decisionTable">
+
+      <!-- Input Variables -->
+      <input id="input1" label="Credit Score">
+        <inputExpression id="inputExpression1" typeRef="integer">
+          <text>creditScore</text>
+        </inputExpression>
+      </input>
+
+      <input id="input2" label="Loan Amount">
+        <inputExpression id="inputExpression2" typeRef="integer">
+          <text>loanAmount</text>
+        </inputExpression>
+      </input>
+
+      <!-- Output Variable -->
+      <output id="output1" label="Loan Decision" typeRef="string"/>
+
+      <!-- Rules -->
+      <rule id="rule1">
+        <description>Approve for good credit and low loan amount</description>
+        <inputEntry id="inputEntry1">
+          <text>&gt;= 700</text>
+        </inputEntry>
+        <inputEntry id="inputEntry2">
+          <text>&lt;= 50000</text>
+        </inputEntry>
+        <outputEntry id="outputEntry1">
+          <text>"approved"</text>
+        </outputEntry>
+      </rule>
+
+      <rule id="rule2">
+        <description>Reject for bad credit</description>
+        <inputEntry id="inputEntry3">
+          <text>&lt; 600</text>
+        </inputEntry>
+        <inputEntry id="inputEntry4">
+          <text>[true]</text> <!-- Wildcard -->
+        </inputEntry>
+        <outputEntry id="outputEntry2">
+          <text>"rejected"</text>
+        </outputEntry>
+      </rule>
+
+      <rule id="rule3">
+        <description>Manual approval required if loan amount is above 50K</description>
+        <inputEntry id="inputEntry5">
+          <text>&gt;= 600</text>
+        </inputEntry>
+        <inputEntry id="inputEntry6">
+          <text>&gt; 50000</text>
+        </inputEntry>
+        <outputEntry id="outputEntry3">
+          <text>"pending"</text>
+        </outputEntry>
+      </rule>
+
+    </decisionTable>
+  </decision>
+</definitions>
